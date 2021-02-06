@@ -3,15 +3,28 @@ import ToDoItem from './ToDoItem';
 import Form from './Form';
 
 export default function App(props) {
-	const [name, updateName] = useState('Arthur');
+	const [toDos, setToDos] = useState(props.toDos);
+
+	const addItem = item => {
+		const newItem = { id: 'id', name: item, completed: false };
+		setToDos([...toDos, newItem]);
+	};
+
+	const toDoList = toDos.map(toDo => (
+		<ToDoItem
+			id={toDo.id}
+			name={toDo.name}
+			completed={toDo.completed}
+			key={toDo.id}
+		/>
+	));
+
 	return (
 		<div className="page-wrapper">
 			<h1>Ryan's To-Do List</h1>
-			<Form />
+			<Form addItem={addItem} />
 
-			<ul>
-				<ToDoItem />
-			</ul>
+			<ul>{toDoList}</ul>
 		</div>
 	);
 }
